@@ -24,3 +24,22 @@ def pregunta_09():
      'jjj': 18}}
 
     """
+    conteo_claves = {}
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            diccionario_str = line.strip().split("\t")[4]
+            pares = diccionario_str.split(",")
+            for par in pares:
+                clave_col, _ = par.split(":")
+                if clave_col in conteo_claves:
+                    conteo_claves[clave_col] += 1
+                else:
+                    conteo_claves[clave_col] = 1
+
+    return conteo_claves
+
+resultado_dict = pregunta_09()
+print("{")
+for clave, valor in resultado_dict.items():
+    print(f"    '{clave}': {valor},")
+print("}")

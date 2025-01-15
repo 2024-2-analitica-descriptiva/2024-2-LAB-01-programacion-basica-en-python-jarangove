@@ -26,3 +26,32 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+    valores_por_clave = {}
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            if len(columns) < 5:
+                continue  
+            diccionario_str = columns[4]
+            pares = diccionario_str.split(",")
+            for par in pares:
+                clave_actual, valor = par.split(":")
+                valor = int(valor)
+                if clave_actual in valores_por_clave:
+                    valores_por_clave[clave_actual][0] = min(
+                        valores_por_clave[clave_actual][0], valor)
+                    valores_por_clave[clave_actual][1] = max(
+                        valores_por_clave[clave_actual][1], valor)
+                else:
+                    valores_por_clave[clave_actual] = [valor, valor]
+   
+    resultado = [
+        (clave, valores[0], valores[1])
+        for clave, valores in sorted(valores_por_clave.items())
+    ]
+    return resultado
+
+print("[")
+for clave, min_val, max_val in pregunta_06():
+    print(f"('{clave}', {min_val}, {max_val}),")
+print("]")
